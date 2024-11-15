@@ -7,6 +7,7 @@ package gestiondetareas;
 import cl.duoc.models.Proyecto;
 import cl.duoc.models.Task;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -48,7 +49,7 @@ public class TaskManagerGUI extends javax.swing.JFrame {
         jrbIncompleta = new javax.swing.JRadioButton();
         btnAgregarTarea = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblListadoTareas = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,7 +80,7 @@ public class TaskManagerGUI extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblListadoTareas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -105,12 +106,12 @@ public class TaskManagerGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        jScrollPane1.setViewportView(tblListadoTareas);
+        if (tblListadoTareas.getColumnModel().getColumnCount() > 0) {
+            tblListadoTareas.getColumnModel().getColumn(0).setResizable(false);
+            tblListadoTareas.getColumnModel().getColumn(1).setResizable(false);
+            tblListadoTareas.getColumnModel().getColumn(3).setResizable(false);
+            tblListadoTareas.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -213,8 +214,27 @@ public class TaskManagerGUI extends javax.swing.JFrame {
         System.out.println(p1.obtenerTareas());
         
         JOptionPane.showMessageDialog(null, "Tarea agregada.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        
+        cargarDatosTabla();
     }//GEN-LAST:event_btnAgregarTareaActionPerformed
 
+    public void cargarDatosTabla(){
+        DefaultTableModel modelo = (DefaultTableModel) tblListadoTareas.getModel();
+        modelo.setRowCount(0);
+        
+        for(Task i : p1.obtenerTareas()){
+            modelo.addRow(new Object[]{
+                i.getIdTask(),
+                i.getNombre(),
+                i.getFechaLimite(),
+                i.getPrioridad(),
+                i.isCompletada()
+            });
+        }
+        
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -261,10 +281,10 @@ public class TaskManagerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private com.toedter.calendar.JCalendar jclFechaLimite;
     private javax.swing.JRadioButton jrbCompleta;
     private javax.swing.JRadioButton jrbIncompleta;
+    private javax.swing.JTable tblListadoTareas;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
